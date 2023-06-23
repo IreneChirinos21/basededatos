@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Habitante</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+	<style type="text/css">
+
+		body {
+			background-color: #fff;
+		  	font-family: Arial, sans-serif;
+		  	margin: 0;
+		  	padding: 0;
+		}
+
+		header {
+			background-color: #6d7c9e;
+			color: #fff;
+			padding: 10px;
+			display: flex;
+			justify-content: space-between;
+			align-items: right;
+			text-decoration: none;
+		}
+
+		header button a{
+			color: #fff;
+  			text-decoration: none;
+		}
+
+		fieldset {
+			max-width: 50%;
+	  		margin: 20px auto;
+	  		background-color: #fff;
+	  		padding: 5%;
+	  		border-radius: 5px;
+	  		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	  		text-decoration: none;
+		}
+
+		label {
+			display: inline-block;
+			width: 100px;
+			text-align: right;
+			margin: 10px;
+			text-decoration: none;
+			color: black;
+
+		}
+
+		input[type="text"],
+		input[type="email"],
+		input[type="date"],
+		input[type="number"],
+		input[type="tel"] {
+			padding: 5px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			margin: 2px 0;
+		}
+
+		select {
+			padding: 5px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			margin: 5px 0;
+			height: 100px;
+			text-decoration: none;
+		}
+
+		input[type="submit"] {
+			background-color: #333;
+			color: #fff;
+			padding: 10px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			position: absolute;
+			right: 30%;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #444;
+			text-align: right;
+		}
+
+		main {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			left: 20%;
+			text-decoration: none;
+		}
+
+		legend {
+			font-weight: bold;
+			margin-bottom: 10px;
+			text-decoration: none;
+			color: #6d7c9e
+		}
+
+		.error {
+			color: red;
+			font-size: 14px;
+			margin-top: 5px;
+		}
+
+		.menu {
+		  display: flex;
+		  justify-content: flex-start;
+		  gap: 40px;
+		  margin-bottom: 90px;
+		}
+
+		.menu button {
+		  background-color: #3498db;
+		  color: #fff;
+		  padding: 10px 20px;
+		  border: none;
+		  border-radius: 5px;
+		  cursor: pointer;
+		}
+
+		.menu button:hover {
+		  background-color: #3176b8;
+		}
+		</style>
+</head>
+<body>
+
+	<header>
+		<nav class="navbar bg-body-tertiary">
+  			<form class="container-fluid">
+  			</form>
+		</nav>
+		<div class="menu">
+		    <button><a href="#datos-personales">Datos personales</a></button>
+  		</div>
+ 
+	</header>
+	<main>
+		<form>
+			<legend>Consulta de Habitantes</legend>
+			<input type="submit" value="Consultar">
+				<label for="nombres">Cédula de Identidad:</label>
+				<input type="text" id="nombres" name="nombres"><br>
+				<form>
+			<fieldset id="datos-personales">
+				<legend>Datos personales</legend>
+				<label for="nombres">Nombres:</label>
+				<input type="text" id="nombres" name="nombres"><br>
+				<label for="apellidos">Apellidos:</label>
+				<input type="text" id="apellidos" name="apellidos"><br>
+				<label for="cedula">Cédula:</label>
+				<input type="text" id="cedula" name="cedula"><br>
+				<label for="email">Correo electrónico:</label>
+				<input type="email" id="email" name="email"><br>
+				<label for="fecha-nacimiento">Fecha de nacimiento:</label>
+				<input type="date" id="fecha-nacimiento" name="fecha-nacimiento"><br>
+				<label for="edad">Edad:</label>
+				<input type="number" id="edad" name="edad" min="0" max="90"><br>
+				<label for="nombres">Telefono Movil:</label>
+				<input type="text" id="nombres" name="nombres"><br>
+				<label for="nombres">Telefono Fijo:</label>
+				<input type="text" id="nombres" name="nombres"><br>
+			</fieldset>
+		</form>
+	</main>
+	<script src="script.js">
+		// Buscar usuario
+			const searchInput = document.querySelector('input[type="search"]');
+			searchInput.addEventListener('keyup', function() {
+			const searchText = this.value.toLowerCase();
+			const users = document.querySelectorAll('fieldset');
+			users.forEach(user => {
+			const name = user.querySelector('#nombres').value.toLowerCase();
+			const lastName = user.querySelector('#apellidos').value.toLowerCase();
+		if (name.includes(searchText) || lastName.includes(searchText)) {
+			user.style.display = 'block';
+		} else {
+			user.style.display = 'none';
+		}
+	});
+});
+
+// Validar edad
+	const edadInput = document.querySelector('#edad');
+	edadInput.addEventListener('input', function() {
+	const edad = parseInt(this.value);
+	if (edad && (edad < 0 || edad > 90)) {
+		this.classList.add('error');
+	} else {
+		this.classList.remove('error');
+	}
+});
+
+// Enviar formulario
+const form = document.querySelector('form');
+form.addEventListener('submit', function(event) {
+	event.preventDefault();
+	const errors = [];
+	const edad = parseInt(edadInput.value);
+	if (edad && (edad < 0 || edad > 120)) {
+		errors.push('La edad debe estar entre 0 y 120');
+	}
+	if (errors.length > 0) {
+		alert(errors.join('\n'));
+	} else {
+		alert('Formulario enviado exitosamente');
+	}
+});
+	</script>
+</head>
+<body>
+  <div class="container">
+	<h1>Bienvenidos</h1>
+	<div class="icono">
+	  <span><i class="bi bi-emoji-laughing-fill"></i></span>
+	</div>
+  </div>
+</body>
+</html>
+</body>
+</html>
+<head>
+  <title>Menu Lateral</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style type="text/css">
+		.sidebar {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 200px;
+		  height: 100%;
+		  background-color: #354f65;
+		  padding: 20px;
+		  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: space-between;
+		  transform: 0.10s;
+		}
+
+		.modules {
+		  list-style: none;
+		  margin: 0;
+		  padding: 0;
+		}
+
+		a {
+		  text-decoration: none;
+		  color: #fff;
+		  font-weight: bold;
+		  font-size: 18px;
+		  padding: 10px;
+		  border-radius: 5px;
+		  display: block;
+		}
+
+		a:hover {
+		  background-color: #AEE4FF;
+		}
+
+		i {
+		  margin-right: 10px;
+		}
+
+		button {
+		  background-color: #3B7DC0;
+		  color: #FFF;
+		  border: none;
+		  border-radius: 5px;
+		  padding: 10px 20px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  position: relative;
+		  top: -10%;
+		}
+
+		button:hover {
+		  background-color: #2E5B8F;
+		}
+  
+  /* Estilos para el desplegable */
+		.sidebar ul ul {
+		  display: none;
+		}
+
+		.sidebar ul li:hover > ul {
+		  display: block;
+		}
+
+		.sidebar ul ul {
+		  position: absolute;
+		  top: 0;
+		  left: 100%;
+		  width: 200px;
+		}
+
+		.sidebar ul ul li {
+		  margin: 0;
+		}
+
+		.sidebar ul ul a {
+		  padding: 8px;
+		  font-size: 16px;
+		  border-radius: 0;
+		}
+
+		.sidebar ul ul a:hover {
+		  background-color: #AEE4FF;
+		}
+
+		.sidebar ul ul ul {
+		  top: 0;
+		  left: 100%;
+		}
+   </style>
+</head>
+<body>
+	<div class="sidebar">
+	  <div class="modules">
+		<a href="bienvenidos.html">
+		  <i class="bi bi-text-paragraph"></i>
+		  <span>Menu</span>
+		</a>
+		<a href="consulta_habitantes.html">
+		  <i class="bi bi-people"></i>
+		  <span>Consulta de Habitantes</span>
+		</a>
+		<a href="registro_habitantes.html">
+		  <i class="bi bi-lightbulb"></i>
+		  <span>Registro habitantes</span>
+		</a>
+		<a href="consulta_bombona.html">
+		<i class="bi bi-people"></i>
+		<span>Consulta de Bombonas</span>
+		</a>
+		<a href="registro_bombona.html">
+		<i class="bi bi-lightbulb"></i>
+		<span>Resgistro Bombonas</span>
+		</a>
+	  </div>
+	  <button>
+		  <a href="login.html">Cerrar Sesion <i class="bi bi-box-arrow-right"></i></button>
+	</div>
+</body>
+</html>
